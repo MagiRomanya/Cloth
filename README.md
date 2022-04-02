@@ -14,5 +14,6 @@ A first approach to simulating cloth. It models cloth as a bunch of nodes connec
  * Try to make it 3D  
 
 ## Output:
-![Output of the cloth simulation. The cloth is only supported by the top corners](./cloth.gif)
+![Output of the cloth simulation. The cloth is only supported by the top corners](./cloth.gif)  
+
 Output of the cloth simulation. The cloth is only supported by the top corners.
