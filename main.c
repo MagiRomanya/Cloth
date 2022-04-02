@@ -178,14 +178,14 @@ void genParticleGrid(Particle particles[] ,int* Nparticles, int nx, int ny, floa
     }
   }
 }
-#define Nx 30
-#define Ny 30
+#define Nx 40
+#define Ny 40
 #define DeltaX 20.f
 #define DeltaY 20.f
 #define index(i,j) ((i)*Ny + j)
 
 int Springs(float x, const float y[], float f[], int size){
-  const float K = 10.0f;
+  const float K = 25.0f;
   const float dump = 1.0e-1f;
   const float d0 = DeltaX;
   const float g0 = -5;
@@ -231,12 +231,12 @@ int Springs(float x, const float y[], float f[], int size){
       f[size/2 + index(i,j)*2+1] += K*( (y[index(i,j-1)*2+1] - y[index(i,j)*2+1] ) ) - (y[index(i,j)*2+size/2+1])*dump -g0;
 
     j = 0;
-      /* // X coordinate */
-      /* f[size/2 + index(i,j)*2] += K*( (y[index(i+1,j)*2] - y[index(i,j)*2] ) + (y[index(i-1,j)*2] - y[index(i,j)*2] ) ) - (y[index(i,j)*2+size/2])*dump; */
-      /* f[size/2 + index(i,j)*2] += K*( (y[index(i,j+1)*2] - y[index(i,j)*2] ) ) - (y[index(i,j)*2+size/2])*dump; */
-      /* // Y coordinate */
-      /* f[size/2 + index(i,j)*2+1] += K*( (y[index(i+1,j)*2+1] - y[index(i,j)*2+1] ) + (y[index(i-1,j)*2+1] - y[index(i,j)*2+1] ) ) - (y[index(i,j)*2+size/2+1])*dump - g0; */
-      /* f[size/2 + index(i,j)*2+1] += K*( (y[index(i,j+1)*2+1] - y[index(i,j)*2+1] ) ) - (y[index(i,j)*2+size/2+1])*dump - g0; */
+      // X coordinate
+      f[size/2 + index(i,j)*2] += K*( (y[index(i+1,j)*2] - y[index(i,j)*2] ) + (y[index(i-1,j)*2] - y[index(i,j)*2] ) ) - (y[index(i,j)*2+size/2])*dump;
+      f[size/2 + index(i,j)*2] += K*( (y[index(i,j+1)*2] - y[index(i,j)*2] ) ) - (y[index(i,j)*2+size/2])*dump;
+      // Y coordinate
+      f[size/2 + index(i,j)*2+1] += K*( (y[index(i+1,j)*2+1] - y[index(i,j)*2+1] ) + (y[index(i-1,j)*2+1] - y[index(i,j)*2+1] ) ) - (y[index(i,j)*2+size/2+1])*dump - g0;
+      f[size/2 + index(i,j)*2+1] += K*( (y[index(i,j+1)*2+1] - y[index(i,j)*2+1] ) ) - (y[index(i,j)*2+size/2+1])*dump - g0;
   }
   // BOOTOM LEFT
   int i = 0;
@@ -269,12 +269,18 @@ int main(void){
   //particles[index(1,1)].x += 20;
   //particles[index(1,1)].y += 20;
 
+  int pause = 1;
   SetTargetFPS(60);
   while (!WindowShouldClose()) {
-    calculateNextStep_rk4(particles, Nparticles, 0.0f, 0.1f);
+    if (IsKeyPressed(KEY_SPACE)) {
+      if (pause) pause = 0;
+      else pause = 1;
+    }
+    if (!pause) {
+      calculateNextStep_rk4(particles, Nparticles, 0.0f, 0.1f);
+    }
     BeginDrawing();
         ClearBackground(RAYWHITE);
-        //DrawText("Congrats! You created your first window!", 190, 200, 20, LIGHTGRAY);
         drawParticles(particles, Nparticles);
     EndDrawing();
   }
