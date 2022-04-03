@@ -1,4 +1,4 @@
-# Bounce
+# Cloth
 
 A first approach to simulating cloth. It models cloth as a bunch of nodes connected by springs and atracted by gravity to the floor.  
 
